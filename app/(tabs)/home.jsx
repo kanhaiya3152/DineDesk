@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
 
 export default function home() {
   return (
-    <View>
-      <Text>home</Text>
-    </View>
+    <SafeAreaView style={{ backgroundColor:"#2b2b2b"}}>
+      <View>
+
+      </View>
+    </SafeAreaView>
   )
 }
