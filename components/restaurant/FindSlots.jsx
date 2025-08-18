@@ -5,6 +5,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 import { Formik } from "formik";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import validationSchema from "../../utils/guestFormSchema";
 
 const FindSlots = ({
@@ -15,36 +16,40 @@ const FindSlots = ({
   setSelectedSlot,
   restaurant,
 }) => {
+
   const [slotsVisible, setSlotsVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
-  
+
   const handlePress = () => {
     setSlotsVisible(!slotsVisible);
+  };  
+
+  const handleBooking = async () => {
+
+    const userEmail = await AsyncStorage.getItem("userEmail");
+    const guestStatus = await AsyncStorage.getItem("isGuest");
+
+    if (userEmail) {
+      try {
+        await addDoc(collection(db, "bookings"), { // save to the db
+          email: userEmail,
+          slot: selectedSlot,
+          date: date.toISOString(),
+          guests: selectedNumber,
+          restaurant: restaurant,
+        });
+
+        alert("Booking successfully Done!");
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (guestStatus === "true") {
+      setFormVisible(true);
+      setModalVisible(true);
+    }
   };
 
-//   const handleBooking = async () => {
-//     const userEmail = await AsyncStorage.getItem("userEmail");
-//     const guestStatus = await AsyncStorage.getItem("isGuest");
-//     if (userEmail) {
-//       try {
-//         await addDoc(collection(db, "bookings"), {
-//           email: userEmail,
-//           slot: selectedSlot,
-//           date: date.toISOString(),
-//           guests: selectedNumber,
-//           restaurant: restaurant,
-//         });
-
-//         alert("Booking successfully Done!");
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     } else if (guestStatus === "true") {
-//       setFormVisible(true);
-//       setModalVisible(true);
-//     }
-//   };
   const handleCloseModal = () => {
     setModalVisible(false);
   };
@@ -110,7 +115,7 @@ const FindSlots = ({
           ))}
         </View>
       )}
-      <Modal
+      {/* <Modal
         visible={modalVisible}
         transparent={true}
         animationType="slide"
@@ -187,10 +192,10 @@ const FindSlots = ({
                   </View>
                 )}
               </Formik>
-            )}
-          </View>
+            )} */}
+          {/* </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 };

@@ -6,55 +6,60 @@ import logo from "../../assets/images/dinetimelogo.png";
 import entryImg from "../../assets/images/Frame.png";
 import { Formik } from "formik";
 import validationSchema from "../../utils/authSchema";
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// import { doc, getDoc, getFirestore } from "firebase/firestore";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Signin = () => {
   const router = useRouter();
-//   const auth = getAuth();
-//   const db = getFirestore();
-//   const handleGuest = async () => {
-//     await AsyncStorage.setItem("isGuest", "true");
-//     router.push("/home");
-//   };
-//   const handleSignin = async (values) => {
-//     try {
-//       const userCredentials = await signInWithEmailAndPassword(
-//         auth,
-//         values.email,
-//         values.password
-//       );
-//       const user = userCredentials.user;
 
-//       const userDoc = await getDoc(doc(db, "users", user.uid));
-//       if (userDoc.exists()) {
-//         console.log("User data:", userDoc.data());
-//         await AsyncStorage.setItem("userEmail", values.email);
-//         await AsyncStorage.setItem("isGuest", "false");
-//         router.push("/home");
-//       } else {
-//         console.log("No such Doc");
-//       }
-//     } catch (error) {
-//       console.log(error);
+  const auth = getAuth();
+  const db = getFirestore();
 
-//       if (error.code === "auth/invalid-credential") {
-//         Alert.alert(
-//           "Signin Failed!",
-//           "Incorrect credentials. Please try again.",
-//           [{ text: "OK" }]
-//         );
-//       } else {
-//         Alert.alert(
-//           "Sign in Error",
-//           "An unexpected error occurred. Please try again later.",
-//           [{ text: "OK" }]
-//         );
-//       }
-//     }
-//   };
-    const handleSignin = () => {};
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
+
+  const handleSignin = async (values) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const user = userCredentials.user;
+
+      const userDoc = await getDoc(doc(db, "users", user.uid)); // getdoc-> getting the data from db
+
+      if (userDoc.exists()) {
+        console.log("User data:", userDoc.data());
+        await AsyncStorage.setItem("userEmail", values.email);
+        await AsyncStorage.setItem("isGuest", "false");
+        router.push("/home");
+      } else {
+        console.log("No such Doc");
+      }
+    } catch (error) {
+      console.log(error);
+
+      if (error.code === "auth/invalid-credential") {
+        Alert.alert(
+          "Signin Failed!",
+          "Incorrect credentials. Please try again.",
+          [{ text: "OK" }]
+        );
+      } else {
+        Alert.alert(
+          "Sign in Error",
+          "An unexpected error occurred. Please try again later.",
+          [{ text: "OK" }]
+        );
+      }
+    }
+  };
+
+
   return (
     <SafeAreaView className={`bg-[#2b2b2b]`}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -137,7 +142,7 @@ const Signin = () => {
               </Text>
               <TouchableOpacity
                 className="flex flex-row justify-center mb-5 p-2 items-center"
-                onPress={() => router.push('/home')}
+                onPress={handleGuest}
               >
                 <Text className="text-white font-semibold">Be a</Text>
                 <Text className="text-base font-semibold underline text-[#f49b33]">

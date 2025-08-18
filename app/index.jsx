@@ -3,14 +3,15 @@ import { View, Text, TouchableOpacity, ScrollView, Image, StatusBar } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from "../assets/images/dinetimelogo.png"
 import entryImg from "../assets/images/Frame.png"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
   const router = useRouter();
 
-  // const handleGuest = async () => {
-  //   await AsyncStorage.setItem("isGuest", "true");
-  //   router.push("/home");
-  // };
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
 
   return (
     <SafeAreaView className={`bg-[#2b2b2b]`}>
@@ -25,7 +26,7 @@ export default function Index() {
               <Text className="text-lg font-semibold text-center">Sign Up</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push('/home')}
+              onPress={handleGuest}
               className="p-2 my-2 bg-[#2b2b2b] border border-[#f49b33] rounded-lg max-w-fit "
             >
               <Text className="text-lg font-semibold text-[#f49b33] text-center">

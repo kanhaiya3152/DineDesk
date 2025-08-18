@@ -1,11 +1,12 @@
 import { View, Text, FlatList, ScrollView, Platform, SafeAreaView, Dimensions, Image } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
 import DatePickerComponent from '../../components/restaurant/DatePickerComponent';
 import GuestPickerComponent from '../../components/restaurant/GuestPickerComponent';
+import FindSlots from '../../components/restaurant/FindSlots';
 
 export default function Restaurant() {
     const { restaurant} = useLocalSearchParams();
@@ -188,6 +189,10 @@ export default function Restaurant() {
     }
   };
 
+  useEffect(() => {
+    getRestaurantData();
+  }, []);
+
     return (
         <SafeAreaView
       style={[
@@ -220,7 +225,7 @@ export default function Restaurant() {
           <Text className="max-w-[75%] text-white">
             {restaurantData?.address} |{"  "}
             <Text
-              onPress={handleLocation}
+              onPress={()=>{}}
               className="underline flex items-center mt-1 text-[#f49b33] italic font-semibold"
             >
               Get Direction
