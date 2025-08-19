@@ -6,6 +6,7 @@ import { db } from "../../config/firebaseConfig";
 import { Formik } from "formik";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import validationSchema from "../../utils/guestFormSchema";
 // import validationSchema from "../../utils/guestFormSchema";
 
 const FindSlots = ({
@@ -53,6 +54,7 @@ const FindSlots = ({
   const handleCloseModal = () => {
     setModalVisible(false);
   };
+
   const handleSlotPress = (slot) => {
     let prevSlot = selectedSlot;
     if (prevSlot == slot) {
@@ -61,6 +63,7 @@ const FindSlots = ({
       setSelectedSlot(slot);
     }
   };
+  
   const handleFormSubmit = async (values) => {
     try {
       await addDoc(collection(db, "bookings"), {
@@ -77,6 +80,7 @@ const FindSlots = ({
       console.log(error);
     }
   };
+  
   return (
     <View className="flex-1">
       <View className={`flex ${selectedSlot != null && "flex-row"} `}>
@@ -115,7 +119,7 @@ const FindSlots = ({
           ))}
         </View>
       )}
-      {/* <Modal
+      <Modal
         visible={modalVisible}
         transparent={true}
         animationType="slide"
@@ -192,10 +196,10 @@ const FindSlots = ({
                   </View>
                 )}
               </Formik>
-            )} */}
-          {/* </View>
+            )}
+          </View>
         </View>
-      </Modal> */}
+      </Modal>
     </View>
   );
 };

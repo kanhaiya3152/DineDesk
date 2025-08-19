@@ -20,6 +20,7 @@ export default function Profile() {
 
     fetchUserEmail();
   }, []);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -32,9 +33,11 @@ export default function Profile() {
       Alert.alert("Logged Error", "Error while logging out");
     }
   };
+
   const handleSignup = () => {
     router.push("/signup");
   };
+  
   return (
     <View className="flex-1 justify-center items-center bg-[#2b2b2b]">
       <Text className="text-xl text-[#f49b33] font-semibold mb-4">
