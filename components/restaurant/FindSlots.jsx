@@ -1,13 +1,12 @@
 import { View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
 import React, { useState } from "react";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 import { Formik } from "formik";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import validationSchema from "../../utils/guestFormSchema";
-// import validationSchema from "../../utils/guestFormSchema";
+
 
 const FindSlots = ({
   date,

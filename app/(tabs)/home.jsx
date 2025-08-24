@@ -46,6 +46,7 @@ export default function Home() {
       setRestaurants((prev) => [...prev, item.data()]);
     });
   };
+  
   useEffect(() => {
     getRestaurants();
     temp();

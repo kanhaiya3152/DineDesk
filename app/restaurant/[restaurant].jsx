@@ -1,6 +1,6 @@
-import { View, Text, FlatList, ScrollView, Platform, SafeAreaView, Dimensions, Image } from 'react-native'
+import { View, Text, FlatList, ScrollView, Platform, SafeAreaView, Dimensions, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,21 +9,23 @@ import GuestPickerComponent from '../../components/restaurant/GuestPickerCompone
 import FindSlots from '../../components/restaurant/FindSlots';
 
 export default function Restaurant() {
-    const { restaurant} = useLocalSearchParams();
-    const flatListRef = useRef(null);
-    const windowWidth = Dimensions.get("window").width;
+  const { restaurant } = useLocalSearchParams();
+  const flatListRef = useRef(null);
+  const windowWidth = Dimensions.get("window").width;
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [restaurantData, setRestaurantData] = useState({});
-    const [carouselData, setCarouselData] = useState({});
+  const router = useRouter();
 
-    const [slotsData, setSlotsData] = useState({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [restaurantData, setRestaurantData] = useState({});
+  const [carouselData, setCarouselData] = useState({});
 
-    const [selectedSlot, setSelectedSlot] = useState(null);
-    const [selectedNumber, setSelectedNumber] = useState(2);
-    const [date, setDate] = useState(new Date());
+  const [slotsData, setSlotsData] = useState({});
 
-    const handleNextImage = () => {
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedNumber, setSelectedNumber] = useState(2);
+  const [date, setDate] = useState(new Date());
+
+  const handleNextImage = () => {
     const carouselLength = carouselData[0]?.images.length;
     if (currentIndex < carouselLength - 1) {
       const nextIndex = currentIndex + 1;
@@ -53,7 +55,7 @@ export default function Restaurant() {
     }
   };
 
-    const carouselItem = ({ item }) => {
+  const carouselItem = ({ item }) => {
     return (
       <View style={{ width: windowWidth - 2 }} className="h-64 relative">
         <View
@@ -108,9 +110,8 @@ export default function Restaurant() {
           {carouselData[0].images?.map((_, i) => (
             <View
               key={i}
-              className={`bg-white h-2 w-2 ${
-                i == currentIndex && "h-3 w-3"
-              } p-1 mx-1 rounded-full`}
+              className={`bg-white h-2 w-2 ${i == currentIndex && "h-3 w-3"
+                } p-1 mx-1 rounded-full`}
             />
           ))}
         </View>
@@ -129,10 +130,10 @@ export default function Restaurant() {
     );
   };
 
-    const getRestaurantData = async () => {
+  const getRestaurantData = async () => {
     try {
 
-        // restaurant data from db
+      // restaurant data from db
       const restaurantQuery = query(
         collection(db, "restaurants"),
         where("name", "==", restaurant)
@@ -162,7 +163,7 @@ export default function Restaurant() {
           console.log("No matching carousel found");
           return;
         }
-        
+
         carouselSnapshot.forEach((carouselDoc) => {
           carouselImages.push(carouselDoc.data());
         });
@@ -193,8 +194,8 @@ export default function Restaurant() {
     getRestaurantData();
   }, []);
 
-    return (
-        <SafeAreaView
+  return (
+    <SafeAreaView
       style={[
         { backgroundColor: "#2b2b2b" },
         Platform.OS == "android" && { paddingBottom: 55 },
@@ -202,10 +203,19 @@ export default function Restaurant() {
       ]}
     >
       <ScrollView className="h-full">
-        <View className="flex-1 my-2 p-2">
-          <Text className="text-xl text-[#f49b33] mr-2 font-semibold">
-            {restaurant}
-          </Text>
+        <View className="flex-1 my-8 p-2">
+          <View className="flex-1 flex-row">
+            <TouchableOpacity onPress={() => router.push("/home")}>
+              <Ionicons
+                name="arrow-back"
+                size={22}
+                color="white"
+              />
+            </TouchableOpacity>
+            <Text className="text-xl pl-2 text-[#f49b33] mr-2 font-semibold">
+              {restaurant}
+            </Text>
+          </View>
           <View className="border-b border-[#f49b33]" />
         </View>
         <View className="h-64 max-w-[98%] mx-2 rounded-[25px]">
@@ -225,7 +235,7 @@ export default function Restaurant() {
           <Text className="max-w-[75%] text-white">
             {restaurantData?.address} |{"  "}
             <Text
-              onPress={()=>{}}
+              onPress={() => { }}
               className="underline flex items-center mt-1 text-[#f49b33] italic font-semibold"
             >
               Get Direction
@@ -273,5 +283,5 @@ export default function Restaurant() {
         </View>
       </ScrollView>
     </SafeAreaView>
-    )
+  )
 }

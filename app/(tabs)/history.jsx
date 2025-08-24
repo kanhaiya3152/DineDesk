@@ -61,6 +61,7 @@ const History = () => {
   
   return (
     <SafeAreaView className="flex-1 bg-[#2b2b2b]">
+      <Text className="text-2xl text-[#f49b33] font-semibold mt-5 text-center mb-4">History</Text>
       {userEmail ? (
         <FlatList
           data={bookings}
@@ -76,7 +77,7 @@ const History = () => {
               <Text className="text-white">Email:{item.email}</Text>
             </View>
           )}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 30 }}
         />
       ) : (
         <View className="flex-1 justify-center items-center">

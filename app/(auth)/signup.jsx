@@ -81,7 +81,7 @@ const Signup = () => {
                                 <View className="w-full">
                                     <Text className="text-[#f49b33] mt-4 mb-2">Email</Text>
                                     <TextInput
-                                        className="h-10 border border-white text-white rounded px-2"
+                                        className="h-15 border border-white text-white rounded px-2"
                                         keyboardType="email-address"
                                         onChangeText={handleChange("email")}
                                         value={values.email}
@@ -95,7 +95,7 @@ const Signup = () => {
                                     )}
                                     <Text className="text-[#f49b33] mt-4 mb-2">Password</Text>
                                     <TextInput
-                                        className="h-10 border border-white text-white rounded px-2"
+                                        className="h-15 border border-white text-white rounded px-2"
                                         secureTextEntry
                                         onChangeText={handleChange("password")}
                                         value={values.password}
@@ -133,17 +133,14 @@ const Signup = () => {
                             </TouchableOpacity>
 
                             <Text className="text-center text-base  font-semibold mb-4 text-white">
-                                <View className="border-b-2 border-[#f49b33] p-2 mb-1 w-24" />{" "}
-                                or{" "}
-                                <View className="border-b-2 border-[#f49b33] p-2 mb-1 w-24" />
+                                <View className="border-b-2 border-[#f49b33] p-2 mb-1 w-24" /> or <View className="border-b-2 border-[#f49b33] p-2 mb-1 w-24" />
                             </Text>
                             <TouchableOpacity
                                 className="flex flex-row justify-center mb-5 p-2 items-center"
                                 onPress={handleGuest}
                             >
-                                <Text className="text-white font-semibold">Be a</Text>
+                                <Text className="text-white font-semibold">Be a </Text>
                                 <Text className="text-base font-semibold underline text-[#f49b33]">
-                                    {" "}
                                     Guest User
                                 </Text>
                             </TouchableOpacity>
